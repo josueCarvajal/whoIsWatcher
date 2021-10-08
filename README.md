@@ -2,37 +2,45 @@
 
 
 ## Tool description
-1- Python tool that queries 5 domains from the WHOIS API each 24 hours. 
-2- Normalizes the JSON request and monitor if from the previous day, those domains were tampered or not
-3- If a domain was tampered it will send an email to the associated email in the conf.yaml
-4- Once a tampered domain was found it will update the parsed.json file with the latest data.
+1- Python tool that queries 5 domains from the WHOIS API each 24 hours. <br>
+2- Normalizes the JSON request and monitor if from the previous day, those domains were tampered or not <br>
+3- If a domain was tampered it will send an email to the associated email in the conf.yaml <br>
+4- Once a tampered domain was found it will update the parsed.json file with the latest data. <br>
 
-#Requirements: 
-1- Docker service running in your system.
-2- Once downloaded modify the conf.yaml with your own whoisAPI key, put your own email and ask me for the email SMTP password
+# Pre-requisites: 
+1- Docker service running in your system. <br>
+2- Once downloaded modify the conf.yaml with your own whoisAPI key, put your own email and the **PASSWD for the sender will be emailed** :)<br>
 
 
 ## To run it with docker
-1- Download the source code into an empty directory <br>
-2- cd to the directory where the Dockerrun is configured
-3- Run the following command, it may take a little bit, there are 15 things to build :)
+1- Download the source code into an empty directory <br> 
+2- cd to the directory where the Dockerrun is configured <br>
+3- Run the following command, it may take a little bit, there are 15 things to build :) <br>
 > docker build --no-cache -t whoiswatcher . 
 <br>
-4- Go to Docker Desktop > Images > Click Run > Run 
-5- And here you can open the console
+4- Go to Docker Desktop > Images > Click Run > Run <br>
+5- And here you can open the console <br>
 
-and execute the container called whoiswatcher and open the CLI
-
-## Configuration files:
-1- There is a file called config.yaml that you can add your own email to receive the alerts and your own API key
+![console](/media/console.PNG "running instance")
+6- All the project files are sabed under /opt/whois_watcher/ <br>
+7- You can monitor the application logs with <br>
+> tail -F /opt/whois_watcher/
+<br>
 
 ## How to test
-1-
+1- By default, the first execution will validate with a pre-existing parsed.dict file. So you may only receive INFO emails saying that everything is OK. <br>
+2- If you want to test the tampered functionality, follow the next steps <br>
 
-cd /opt/whois_watcher
+### Testing the tampered functionality
+1- Before building your docker image, open the file called parsed.dict <br>
+2- Modify the **value** of a key, for example change the hour and save <br>
+3- Build your docker instance again <br>
+4- In the first startup you will receive a warning email message like this: <br>
+![warning_email](/media/tampered_email.PNG "running instance") 
+
 
 ## TOOL ARCHITECTURE
-1- Python tool that uses apscheduler from python to run a whois request each 24 hours
-2- It reads the domains from the domains.yaml and do an RPC request to the API
-3- Then that response is parsed based on the JSON request of each individual 
+1- Python tool that uses apscheduler from python to run a whois request each 24 hours <br>
+2- It reads the domains from the domains.yaml and do an RPC request to the API <br> 
+3- Then that response is parsed based on the JSON request of each individual domain and we use dict to handle everything <br> <br>
 ![arquitecture](/media/whoisWatcherDiagram.png "Diagram")
