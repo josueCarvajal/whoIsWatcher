@@ -1,0 +1,3 @@
+pip install whois-api
+pip install pyyaml
+pip install apscheduler
