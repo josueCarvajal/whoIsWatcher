@@ -9,23 +9,33 @@ def build_body_alert_email(cache_hash, current_hash, cache_file, current_file, d
     Dear administrator,
     We have found an inconsistency between yesterday's files and today request's
 
-    Domain name: {}
+    Domain name: {},
+    
     Hash from yesterday: {},
+    
     Hash from today: {},
 
     Original whois record: {},
-    Tampered whois record: {}
+    
+    
+    Tampered whois record: {},
+    
+    Best,
+    whoIsWatcher.py
     """.format(domain_name, cache_hash, current_hash, cache_file, current_file)
 
     return message
 
 
-def build_body_info_email():
+def build_body_info_email(domain_name):
     message = """
     Dear administrator,
-    Everything seems to be good between yesterday's files and today request's
+    
+    Everything seems to be good between yesterday's files and today request's for domain {}
 
-    """
+    Best,
+    whoIsWatcher.py
+    """.format(domain_name)
     return message
 
 

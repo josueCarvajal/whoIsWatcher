@@ -1,3 +1,5 @@
+import json
+
 from apscheduler.schedulers.blocking import BlockingScheduler
 import configparser
 from datetime import datetime
@@ -20,7 +22,7 @@ import smtp as mail
 working_dir = pathlib.Path(__file__).parent.resolve()
 log_file = working_dir.joinpath('watcher.log')
 domains_yaml = working_dir.joinpath('domains.yaml')
-parsed_json = working_dir.joinpath('parsed.json')
+parsed_dict = working_dir.joinpath('parsed.dict')
 conf_file = working_dir.joinpath('conf.yaml')
 
 logging.basicConfig(filename=log_file, level=logging.DEBUG, format='%(asctime)s %(message)s',
@@ -113,18 +115,18 @@ def normalizer(response):
     dictionary = build_dictionary(response)
     domain_name = dictionary.get('domain_record').get('domain_name')
     if check_cache():
-        append_json_to_file(dictionary)
+        append_dict_to_file(dictionary)
         logging.info('[INFO] Saving first results to a file.')
     else:
         logging.info('[INFO] Checking cache...')
         result = compare_results(dictionary, domain_name)
         if result == 1:
             logging.info('[INFO] Saving first result for this domain into disk')
-            append_json_to_file(dictionary)
+            append_dict_to_file(dictionary)
 
 
 def check_cache():
-    cache = os.path.getsize(str(parsed_json))
+    cache = os.path.getsize(str(parsed_dict))
     if cache <= 0:
         return True
     else:
@@ -132,7 +134,7 @@ def check_cache():
 
 
 def compare_results(dictionary, domain_name):
-    archived_cached_hash = calculate_json_hash_from_cache(domain_name)
+    archived_cached_hash = calculate_dict_hash_from_cache(domain_name)
     # if not found return 1
     if archived_cached_hash == 1:
         return 1
@@ -142,53 +144,53 @@ def compare_results(dictionary, domain_name):
     logging.info("[INFO] validating current hash " + current_hash)
     if archived_cached_hash == current_hash:
         logging.info("[INFO] Values are the identical from cache... this is good.")
-        message = mail.build_body_info_email()
+        message = mail.build_body_info_email(domain_name)
         mail.send_email(message, 0, str(RECEIPT), str(SENDER_PASSWD))
     else:
         logging.warning("[WARN] Data has been tampered!")
         archived_file = retrieve_archived_whois(domain_name)
         logging.warning("[WARN] Updating registers...")
-        update_json_file(dictionary, domain_name)
+        update_dict_file(dictionary, domain_name)
 
-        message = mail.build_body_alert_email(archived_cached_hash, current_hash, dictionary, archived_file,
+        message = mail.build_body_alert_email(archived_cached_hash, current_hash, json.dumps(dictionary, indent=4), json.dumps(archived_file, indent=4),
                                               domain_name)
         logging.warning("[WARN] Sending alert via email...")
         mail.send_email(message, 1, str(RECEIPT), str(SENDER_PASSWD))
 
 
-def append_json_to_file(dictionary):
-    with open(str(parsed_json), "a") as fp:
+def append_dict_to_file(dictionary):
+    with open(str(parsed_dict), "a") as fp:
         fp.write(str(dictionary) + '\n')
         fp.close()
 
 
-def update_json_file(new_dictionary, domain_name):
-    json_file = fileinput.input(files=str(parsed_json), inplace=1)
-    for line in json_file:
+def update_dict_file(new_dictionary, domain_name):
+    dict_file = fileinput.input(files=str(parsed_dict), inplace=1)
+    for line in dict_file:
         if domain_name in line:
             line = new_dictionary
         print(line)
-    json_file.close()
+    dict_file.close()
 
 
-def calculate_json_hash_from_cache(domain_name):
-    json_file = open(str(parsed_json))
-    for x in json_file:
+def calculate_dict_hash_from_cache(domain_name):
+    dict_file = open(str(parsed_dict))
+    for x in dict_file:
         if not x.strip() == '':
             file = ast.literal_eval(x.replace('\n', ''))
             root_element = file['domain_record']
             current_domain_name = root_element['domain_name']
             if current_domain_name == domain_name:
-                json_file.close()
+                dict_file.close()
                 return calculate_hash(file)
     # if not found return 1
-    json_file.close()
+    dict_file.close()
     return 1
 
 
 def retrieve_archived_whois(domain_name):
-    json_file = open(str(parsed_json))
-    for x in json_file:
+    dict_file = open(str(parsed_dict))
+    for x in dict_file:
         if not x.strip() == '':
             file = ast.literal_eval(x.replace('\n', ''))
             root_element = file['domain_record']
@@ -216,6 +218,6 @@ def do_rpc():
 if __name__ == '__main__':
     logging.debug("[DEBUG] doing first do_rpc")
     do_rpc()  # first execution requires call
-    scheduler = BlockingScheduler()
-    scheduler.add_job(do_rpc, 'interval', hours=24)
-    scheduler.start()
+    #scheduler = BlockingScheduler()
+    #scheduler.add_job(do_rpc, 'interval', hours=24)
+    #scheduler.start()
