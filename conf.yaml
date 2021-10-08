@@ -1,5 +1,5 @@
 EMAIL:
   RECEIPT: '' #who will receive the message?
-  PASSWD: '' #sender smtp default password
+  PASSWD: '' #sender smtp default password ask dev for password
 API:
   API_KEY: '' #your own private key
