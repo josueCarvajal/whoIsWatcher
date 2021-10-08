@@ -19,11 +19,15 @@
 > docker build --no-cache -t whoiswatcher . 
 <br>
 4- Go to Docker Desktop > Images > Click Run > Run <br>
+
+![docker_images](/media/imagesOnDisk.PNG "images")
+
+<br>
 5- And here you can open the console <br>
 
 ![console](/media/console.PNG "running instance")
 6- All the project files are sabed under /opt/whois_watcher/ <br>
-7- You can monitor the application logs with <br>
+7- You can monitor the application logs with <br> <br>
 > tail -F /opt/whois_watcher/
 <br>
 
