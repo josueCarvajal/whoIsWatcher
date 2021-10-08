@@ -50,10 +50,17 @@
 3- Build your docker instance again <br>
 4- In the first startup you will receive a warning email message like this: <br>
 ![warning_email](/media/tampered_email.PNG "email sample") 
-
+<br>
+5- CAVEAT!!! Once a tampered file was found, the code will update that specific record with the latest one. So take into consideration that while testing
 
 ## TOOL ARCHITECTURE
 1- Python tool that uses apscheduler from python to run a whois request each 24 hours <br>
 2- It reads the domains from the domains.yaml and do an RPC request to the API <br> 
 3- Then that response is parsed based on the JSON request of each individual domain and we use dict to handle everything <br> <br>
 ![arquitecture](/media/whoisWatcherDiagram.png "Diagram")
+
+
+## Improvements - To Be Done in the future
+1- A flag to enable/disable receiving INFO email messages
+2- Hash the pasword since right now it is in plain text in the code
+3- Keep an audit file of history of each individual domain instead of overwritting with the latest
