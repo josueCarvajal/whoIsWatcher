@@ -12,7 +12,7 @@ ADD domains.yaml /opt/whois_watcher/
 
 ADD main.py /opt/whois_watcher/
 
-ADD parsed.json /opt/whois_watcher/
+ADD parsed.dict /opt/whois_watcher/
 
 ADD smtp.py /opt/whois_watcher/
 
