@@ -9,8 +9,8 @@
 
 # Pre-requisites: 
 1- Docker service running in your system. <br>
-2- Once downloaded modify the conf.yaml with your own whoisAPI key, put your own email and the **PASSWD for the sender will be emailed** :)<br>
-
+2- Once downloaded modify the conf.yaml with your own whoisAPI key, put your own email and the **PASSWD for the sender will be emailed** :) <br> <br>
+![conf](/media/conf.PNG "configuration file")
 
 ## To run it with docker
 1- Download the source code into an empty directory <br> 
@@ -36,7 +36,7 @@
 2- Modify the **value** of a key, for example change the hour and save <br>
 3- Build your docker instance again <br>
 4- In the first startup you will receive a warning email message like this: <br>
-![warning_email](/media/tampered_email.PNG "running instance") 
+![warning_email](/media/tampered_email.PNG "email sample") 
 
 
 ## TOOL ARCHITECTURE
