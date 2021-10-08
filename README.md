@@ -61,6 +61,6 @@
 
 
 ## Improvements - To Be Done in the future
-1- A flag to enable/disable receiving INFO email messages
-2- Hash the pasword since right now it is in plain text in the code
-3- Keep an audit file of history of each individual domain instead of overwritting with the latest
+1- A flag to enable/disable receiving INFO email messages <br>
+2- Hash the pasword since right now it is in plain text in the code <br>
+3- Keep an audit file of history of each individual domain instead of overwritting with the latest <br>
