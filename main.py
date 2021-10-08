@@ -218,6 +218,6 @@ def do_rpc():
 if __name__ == '__main__':
     logging.debug("[DEBUG] doing first do_rpc")
     do_rpc()  # first execution requires call
-    #scheduler = BlockingScheduler()
-    #scheduler.add_job(do_rpc, 'interval', hours=24)
-    #scheduler.start()
+    scheduler = BlockingScheduler()
+    scheduler.add_job(do_rpc, 'interval', hours=24)
+    scheduler.start()
