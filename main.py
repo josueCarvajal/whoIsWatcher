@@ -38,6 +38,7 @@ def load_conf(file_path):
 
 conf = load_conf(conf_file)
 RECEIPT = conf.get('EMAIL').get('RECEIPT')
+SENDER_PASSWD = conf.get('EMAIL').get('PASSWD')
 API_KEY = conf.get('API').get('API_KEY')
 
 
@@ -142,7 +143,7 @@ def compare_results(dictionary, domain_name):
     if archived_cached_hash == current_hash:
         logging.info("[INFO] Values are the identical from cache... this is good.")
         message = mail.build_body_info_email()
-        mail.send_email(message, 0, str(RECEIPT))
+        mail.send_email(message, 0, str(RECEIPT), str(SENDER_PASSWD))
     else:
         logging.warning("[WARN] Data has been tampered!")
         archived_file = retrieve_archived_whois(domain_name)
@@ -152,7 +153,7 @@ def compare_results(dictionary, domain_name):
         message = mail.build_body_alert_email(archived_cached_hash, current_hash, dictionary, archived_file,
                                               domain_name)
         logging.warning("[WARN] Sending alert via email...")
-        mail.send_email(message, 1, str(RECEIPT))
+        mail.send_email(message, 1, str(RECEIPT), str(SENDER_PASSWD))
 
 
 def append_json_to_file(dictionary):
@@ -216,5 +217,5 @@ if __name__ == '__main__':
     logging.debug("[DEBUG] doing first do_rpc")
     do_rpc()  # first execution requires call
     scheduler = BlockingScheduler()
-    scheduler.add_job(do_rpc(), 'interval', hours=24)
+    scheduler.add_job(do_rpc, 'interval', hours=24)
     scheduler.start()

@@ -33,10 +33,10 @@ def build_body_info_email():
     0 - no issues
     1 - tampered file'''
 
-def send_email(body_message, code, receipt):
+def send_email(body_message, code, receipt, sender_password):
     #The mail addresses and password
     sender_address = 'whoiswatcher@gmail.com'
-    sender_pass = 'changeit@123'
+    sender_pass = sender_password
     receiver_address = receipt
     #Setup the MIME
     message = MIMEMultipart()
