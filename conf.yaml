@@ -1,5 +1,5 @@
 EMAIL:
-  RECEIPT: 'josue.crs97@gmail.com' #who will receive the message?
-  PASSWD: 'changeit@123'
+  RECEIPT: '' #who will receive the message?
+  PASSWD: '' #sender smtp default password
 API:
-  API_KEY: 'at_60Qke8D52PBcImwD9FqqiBJXZ7mkl' #your own private key
+  API_KEY: '' #your own private key
