@@ -18,22 +18,31 @@
 3- Run the following command, it may take a little bit, there are 15 things to build :) <br>
 > docker build --no-cache -t whoiswatcher . 
 <br>
-4- Go to Docker Desktop > Images > Click Run > Run <br>
+4- Go to Docker Desktop > Images > Click Run > Run
+<br>
 
 ![docker_images](/media/imagesOnDisk.PNG "images")
-
 <br>
-5- And here you can open the console <br>
+5- And here you can open the console 
+<br>
 
-![console](/media/console.PNG "running instance")
-6- All the project files are sabed under /opt/whois_watcher/ <br>
+![console](/media/console.PNG "running instance") 
+<br>
+6- All the project files are saved under /opt/whois_watcher/, here is how it looks
+<br>
+
+![linux_box](/media/container_files.PNG "container files")
+<br>
 7- You can monitor the application logs with <br> <br>
 > tail -F /opt/whois_watcher/
 <br>
 
+![logs](/media/logs.PNG "logs")
+<br>
+
 ## How to test
 1- By default, the first execution will validate with a pre-existing parsed.dict file. So you may only receive INFO emails saying that everything is OK. <br>
-2- If you want to test the tampered functionality, follow the next steps <br>
+2- If you want to test the tampered functionality, follow the next steps: <br>
 
 ### Testing the tampered functionality
 1- Before building your docker image, open the file called parsed.dict <br>
