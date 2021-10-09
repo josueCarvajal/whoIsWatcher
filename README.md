@@ -34,7 +34,7 @@
 ![linux_box](/media/container_files.PNG "container files")
 <br>
 7- You can monitor the application logs with <br> <br>
-> tail -F /opt/whois_watcher/
+> tail -F /opt/whois_watcher/watcher.log
 <br>
 
 ![logs](/media/logs.PNG "logs")
